@@ -1,0 +1,31 @@
+{
+	"SDKVersion": 2,
+	"Name": "Streamer.Bot",
+	"Description": "Interface to run Streamer.bot actions from your StreamDeck!",
+	"Author": "nate1280",
+	"URL": "https://github.com/nate1280/streamdeck-Streamer.bot",
+	"Version": "0.1.0",
+	"Icon": "icons/icon",
+	"CodePath": "plugin.html",
+
+	"Category": "Streamer.bot",
+	"CategoryIcon": "icons/icon",
+
+	"Actions": [
+		{
+			"Name": "Action",
+			"UUID": "nate1280.streamerbot.action-btn",
+			"Icon": "icons/action",
+			"PropertyInspectorPath": "action-pi.html",
+			"States": [
+				{"Image":"icons/black"}
+			]
+		}
+	],
+
+	"OS": [
+		{"Platform": "windows", "MinimumVersion": "10"}
+	],
+
+	"Software": {"MinimumVersion": "4.1"}
+}

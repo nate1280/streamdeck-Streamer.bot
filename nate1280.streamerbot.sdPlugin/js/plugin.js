@@ -66,6 +66,10 @@ sb.on('ConnectionClosed', () => {
 	setButtonsOffline()
 })
 
+sb.on('ActionAdded', sbUpdateActions)
+sb.on('ActionUpdated', sbUpdateActions)
+sb.on('ActionDeleted', sbUpdateActions)
+
 sb.on('Exiting', () => {
 	sb.disconnect()
 	console.log('Streamer.bot Disconnecting')

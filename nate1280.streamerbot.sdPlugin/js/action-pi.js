@@ -4,11 +4,25 @@ let currentAction
 
 function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, action) {
 	data = JSON.parse(action)
-	currentAction = data.payload.settings.action
+
+	if (typeof data.payload.settings.action === 'string' || data.payload.settings.action instanceof String)
+	{
+		currentAction = { id: action, name: "Unknown"}
+	}
+	else if (data.payload.settings.action === undefined)
+	{
+		currentAction = { id: "", name: ""}
+	}
+	else
+	{
+		currentAction = { id: data.payload.settings.action.id, name: data.payload.settings.action.name}
+	}
+
 	_currentPlugin = {
 		action: data.action,
 		context: uuid
 	}
+
 	StreamDeck.debug = true
 	StreamDeck._ws = new WebSocket("ws://localhost:" + port)
 	StreamDeck._ws.onopen = () => {
@@ -53,11 +67,11 @@ function updateGlobalSettings() {
 
 function updateActionsUI() {
 	document.getElementById('actions').innerText = ''
-	createAction('')
+	//createAction('')
 	sbActions.forEach((action) => {
 		createAction(action)
 	})
-	document.getElementById('actions').value = currentAction
+	document.getElementById('actions').value = currentAction.id
 }
 
 function createAction(action) {
@@ -68,10 +82,20 @@ function createAction(action) {
 }
 
 function updateSettings() {
+	let actionId = document.getElementById('actions').value;
+	let action = getAction(actionId);
 	StreamDeck.setSettings(_currentPlugin.context, {
-		action: document.getElementById('actions').value
+		action: { id: action.id, name: action.name }
 	})
-	currentAction = document.getElementById('actions').value
+	currentAction = { id: action.id, name: action.name }
+}
+
+function getAction(action){
+	for (var i = 0; i < sbActions.length; i++) {
+		if (sbActions[i].id == action) {
+			return sbActions[i];
+		}
+	}
 }
 
 document.getElementById('host').onchange = updateGlobalSettings

@@ -238,6 +238,7 @@ class Socket extends EventEmitter {
     return new Promise(async (resolve, reject) => {
       try {
         await this._connect(address);
+        await this._subscribe();
         resolve();
       } catch (err) {
         this._socket.close();
@@ -314,6 +315,8 @@ class Socket extends EventEmitter {
         // Emit the message with ID if available, otherwise try to find a non-messageId driven event.
         if (message.id) {
           this.emit(`sb:internal:message:id-${message.id}`, err, data);
+        } else if (message.event) {
+          this.emit(message.event.type, data)
         } else {
           logAmbiguousError(debug, 'Unrecognized Socket Message:', message);
           this.emit('message', message);
@@ -335,7 +338,23 @@ class Socket extends EventEmitter {
       this._socket.close();
     }
   }
-}
+
+  /**
+   * Opens a WebSocket connection to an sb-websocket server.
+   *
+   * @param {String} address url without ws:// prefix.
+   * @returns {Promise}
+   * @private
+   * @return {Promise} on attempted creation of WebSocket connection.
+   */
+  async _subscribe() {
+    if (!this._connected) {
+      throw Status.NOT_CONNECTED;
+    }
+
+    await this.send("Subscribe", { events: { Application: ['*'] }})
+  }
+ }
 
 module.exports = Socket;
 

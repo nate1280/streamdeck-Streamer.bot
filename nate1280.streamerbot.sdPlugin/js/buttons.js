@@ -20,9 +20,10 @@ class Button {
 		}
 	}
 
-	hasAction(action){
+	hasAction(action) {
+		var id = (typeof action === 'string' || action instanceof String) ? action : action.id;
 		for (var i = 0; i < SB.actions.length; i++) {
-			if (SB.actions[i].id == action) {
+			if (SB.actions[i].id == id) {
 				return true;
 			}
 		}
@@ -41,7 +42,7 @@ class Button {
 	}
 
 	_updateTitle() {
-		StreamDeck.setTitle(this.context, this[this.type], StreamDeck.BOTH)
+		StreamDeck.setTitle(this.context, this[this.type].name, StreamDeck.BOTH)
 	}
 
 	setOnline() {

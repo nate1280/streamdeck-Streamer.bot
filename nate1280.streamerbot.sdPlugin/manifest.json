@@ -4,7 +4,7 @@
 	"Description": "Interface to run Streamer.bot actions from your StreamDeck!",
 	"Author": "nate1280",
 	"URL": "https://github.com/nate1280/streamdeck-Streamer.bot",
-	"Version": "0.2.0",
+	"Version": "0.3.0",
 	"Icon": "icons/icon",
 	"CodePath": "plugin.html",
 

@@ -20,25 +20,14 @@ class Button {
 		}
 	}
 
-	hasAction(action) {
-		var id = (typeof action === 'string' || action instanceof String) ? action : action.id;
-		for (var i = 0; i < SB.actions.length; i++) {
-			if (SB.actions[i].id == id) {
-				return true;
-			}
-		}
-	}
-
 	_doAction() {
-		if (this.hasAction(this.action)) {
-			sb.send('DoAction', {
-				'action': {
-					'id': this.action
-				}
-			})
-		} else {
-			StreamDeck.sendAlert(this.context)
-		}
+		// blind send the action
+		var id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.action.id;
+		sb.send('DoAction', {
+			'action': {
+				'id': id
+			}
+		})
 	}
 
 	_updateTitle() {

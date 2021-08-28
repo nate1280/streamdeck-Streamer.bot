@@ -10,3 +10,5 @@ Be sure to download the plugin from the Releases section (just under the About) 
 NOTE: This plugin requires [Streamer.bot](https://streamer.bot) to work.
 
 This is more of a proof of concept then a fully realized plugin, while it does work, it was thrown together very quickly, and I'm sure there are better ways to do what it does, and also to add more features/capabilities
+
+**Be sure to goto [Releases](https://github.com/nate1280/streamdeck-Streamer.bot/releases) to download the `streamDeckPlugin` file.**

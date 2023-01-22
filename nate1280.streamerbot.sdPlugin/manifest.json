@@ -1,11 +1,11 @@
 {
-	"SDKVersion": 2,
 	"Name": "Streamer.Bot",
 	"Description": "Interface to run Streamer.bot actions from your StreamDeck!",
 	"Author": "nate1280",
 	"URL": "https://wiki.streamer.bot/en/Plugins/Stream-Deck",
 	"Version": "0.4.0",
 	"Icon": "icons/logo",
+	"SDKVersion": 2,
 	"CodePath": "plugin.html",
 
 	"Category": "Streamer.bot",
@@ -30,7 +30,7 @@
 			"Tooltip": "Run seperate Streamer.bot actions when pressing and releasing the key",
 			"UUID": "nate1280.streamerbot.push-to-actions-btn",
 			"Icon": "icons/action",
-			"PropertyInspectorPath": "push-to-action-pi.html",
+			"PropertyInspectorPath": "push-to-actions-pi.html",
 			"States": [
 				{
 					"Image": "icons/background",
@@ -41,8 +41,13 @@
 	],
 
 	"OS": [
-		{"Platform": "windows", "MinimumVersion": "10"}
+		{
+			"Platform": "windows",
+			"MinimumVersion": "10"
+		}
 	],
 
-	"Software": {"MinimumVersion": "4.1"}
+	"Software": {
+		"MinimumVersion": "4.1"
+	}
 }

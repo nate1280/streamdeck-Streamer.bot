@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Streamer.bot - Action</title>
+		<title>Streamer.bot - Push to Actions</title>
 		<link rel="stylesheet" href="css/sdpi.css">
 		<script src="js/StreamDeck.js" charset="utf-8"></script>
 	</head>
 	<body>
 		<div class="sdpi-wrapper">
 			<div class="sdpi-item" id="select_single">
-				<div class="sdpi-item-label">Action</div>
-				<select class="sdpi-item-value select" id="actions"></select>
+				<div class="sdpi-item-label">Key Down Action</div>
+				<select class="sdpi-item-value select" id="keydown-actions"></select>
+			</div>
+			<div class="sdpi-item" id="select_single">
+				<div class="sdpi-item-label">Key Up Action</div>
+				<select class="sdpi-item-value select" id="keyup-actions"></select>
 			</div>
 			<div type="textarea" class="sdpi-item" id="message_only">
 				<div class="sdpi-item-label">Arguments Object</div>
@@ -31,6 +35,6 @@
 				<input class="sdpi-item-value" id="endpoint">
 			</div>
 		<div>
-		<script src="js/action-pi.js" charset="utf-8"></script>
+		<script src="js/push-to-action-pi.js" charset="utf-8"></script>
 	</body>
 </html>

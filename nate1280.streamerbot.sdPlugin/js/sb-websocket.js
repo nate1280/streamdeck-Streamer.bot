@@ -220,7 +220,7 @@ class Socket extends EventEmitter {
 
   async connect(args = {}) {
     args = args || {};
-    const address = args.address || 'localhost:8080';
+    const address = args.address || 'localhost:8080/';
 
     if (this._socket) {
       try {

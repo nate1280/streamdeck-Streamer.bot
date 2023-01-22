@@ -1,7 +1,8 @@
-const debug = false
+const debug = true
 
 const sb = new SBWebSocket()
 const actionsAction = 'nate1280.streamerbot.action-btn'
+const pushToActionsAction = 'nate1280.streamerbot.push-to-actions-btn'
 
 const ConnectionState = {
 	FAILED: -2,
@@ -16,8 +17,10 @@ function printConnectionState() {
 
 let settings = {
 	host: 'localhost',
-	port: '8080'
+	port: '8080',
+	endpoint: '/'
 }
+
 let pluginUUID
 let connectionState = ConnectionState.DISCONNECTED
 let currentPI
@@ -35,8 +38,11 @@ function connect() {
 			break
 		case ConnectionState.DISCONNECTED:
 			if (debug) console.log('DISCONNECTED: will try to connect')
+			if (settings.host === undefined)     settings.host     = `localhost`
+			if (settings.port === undefined)     settings.port     = `8080`
+			if (settings.endpoint === undefined) settings.endpoint = `/`
 			sb.connect({
-				address: `${settings.host}:${settings.port}`
+				address: `${settings.host}:${settings.port}${settings.endpoint}`
 			})
 			break
 		case ConnectionState.CONNECTING:
@@ -78,7 +84,7 @@ sb.on('Exiting', () => {
 function sbUpdateActions() {
 	sb.send('GetActions').then((data) => {
 		SB.actions = data.actions.map((s) => {
-			return { id: s.id, name: s.name }
+			return { id: s.id, name: s.name, group: s.group }
 		})
 		if (currentPI) sendUpdatedActionsToPI()
 	})
@@ -100,7 +106,7 @@ function sendUpdatedActionsToPI() {
 
 function handleStreamDeckMessages(e) {
 	const data = JSON.parse(e.data)
-	// if (debug) console.log(`${data.event}: `, data)
+	if (debug) console.log(`${data.event}: `, data)
 	switch(data.event) {
 		case 'deviceDidConnect':
 			StreamDeck.getGlobalSettings(pluginUUID)
@@ -121,6 +127,22 @@ function handleStreamDeckMessages(e) {
 				}, 10)
 			}
 			break
+			case 'keyUp':
+				printConnectionState()
+				if (connectionState == ConnectionState.CONNECTED) {
+					buttons[data.context].keyUp()
+				} else {
+					connectionState = ConnectionState.DISCONNECTED
+					connect()
+					setTimeout(() => {
+						if (connectionState == ConnectionState.CONNECTED) {
+							buttons[data.context].keyUp()
+						} else {
+							StreamDeck.sendAlert(data.context)
+						}
+					}, 10)
+				}
+				break
 		case 'willAppear':
 		case 'titleParametersDidChange':
 		case 'didReceiveSettings':
@@ -129,6 +151,7 @@ function handleStreamDeckMessages(e) {
 			} else {
 				let type = ''
 				if (data.action == actionsAction) type = 'action'
+				if (data.action == pushToActionsAction) type = 'push-to-actions'
 				buttons[data.context] = new Button(type, data)
 				if (type == 'action') updateButton(data.context)
 			}

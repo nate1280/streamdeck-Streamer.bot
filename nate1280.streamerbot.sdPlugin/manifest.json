@@ -3,8 +3,8 @@
 	"Name": "Streamer.Bot",
 	"Description": "Interface to run Streamer.bot actions from your StreamDeck!",
 	"Author": "nate1280",
-	"URL": "https://github.com/nate1280/streamdeck-Streamer.bot",
-	"Version": "0.3.0",
+	"URL": "https://wiki.streamer.bot/en/Plugins/Stream-Deck",
+	"Version": "0.3.2",
 	"Icon": "icons/icon",
 	"CodePath": "plugin.html",
 
@@ -14,11 +14,28 @@
 	"Actions": [
 		{
 			"Name": "Action",
+			"Tooltip": "Run Streamer.bot actions",
 			"UUID": "nate1280.streamerbot.action-btn",
 			"Icon": "icons/action",
 			"PropertyInspectorPath": "action-pi.html",
 			"States": [
-				{"Image":"icons/black"}
+				{
+					"Image": "icons/background",
+					"TitleAlignment": "middle"
+				}
+			]
+		},
+		{
+			"Name": "Push to run Actions",
+			"Tooltip": "Run seperate Streamer.bot actions when pressing and releasing the key",
+			"UUID": "nate1280.streamerbot.push-to-actions-btn",
+			"Icon": "icons/action",
+			"PropertyInspectorPath": "push-to-action-pi.html",
+			"States": [
+				{
+					"Image": "icons/background",
+					"TitleAlignment": "middle"
+				}
 			]
 		}
 	],

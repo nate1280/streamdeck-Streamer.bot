@@ -11,7 +11,7 @@ function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, action) 
 	}
 	else if (data.payload.settings.action === undefined)
 	{
-		currentAction = { id: "", name: "", args: ""}
+		currentAction = { id: "", name: "", args: "{}"}
 	}
 	else
 	{

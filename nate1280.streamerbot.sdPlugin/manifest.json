@@ -5,11 +5,11 @@
 	"Author": "nate1280",
 	"URL": "https://wiki.streamer.bot/en/Plugins/Stream-Deck",
 	"Version": "0.4.0",
-	"Icon": "icons/icon",
+	"Icon": "icons/logo",
 	"CodePath": "plugin.html",
 
 	"Category": "Streamer.bot",
-	"CategoryIcon": "icons/icon",
+	"CategoryIcon": "icons/logo",
 
 	"Actions": [
 		{

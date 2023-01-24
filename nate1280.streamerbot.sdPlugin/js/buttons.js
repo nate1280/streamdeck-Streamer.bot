@@ -36,10 +36,14 @@ class Button {
 	_doAction(keyState) {
 		let args = this.action.args || `{}`
 		if (args === undefined || args === null || args === ``) args = `{}`
-		let decodedJson = decodeURI(args).replaceAll(`\n`, ``)
-		decodedJson = Object.entries(JSON.parse(decodedJson))
-		decodedJson.unshift([`source`, `StreamDeck`])
-		args = Object.fromEntries(decodedJson)
+		args = decodeURI(args).replaceAll(`\n`, ``)
+		if (validateJson(args) === false) {
+			args = `{}`
+			console.log(`Invalid JSON`)
+		}
+		args = Object.entries(JSON.parse(args))
+		args.unshift([`source`, `StreamDeck`])
+		args = Object.fromEntries(args)
 		let id = null
 
 		if (this.type === `action` && keyState === `keyDown`) {
@@ -69,11 +73,12 @@ class Button {
 			}).then((data) => {
 				if (data.status === `ok`) {
 					StreamDeck.sendOk(this.context)
-					console.log(`%c[Streamer.bot]%c Action %cran succesfully`, `color: #78d1ff`, `color: #ffffff`, `color: lightgreen`)
+					console.log(`%c[Streamer.bot]%c Action %cran successfully`, `color: #78d1ff`, `color: #ffffff`, `color: lightgreen`)
 				} else {
 					StreamDeck.sendAlert(this.context)
-					console.log(`%c[Streamer.bot]%c Action %cdidn't ran succesfully%c`, `color: #78d1ff`, `color: #ffffff`, `color: red`, `color: #ffffff`)
+					console.log(`%c[Streamer.bot]%c Action %cdidn't ran successfully%c`, `color: #78d1ff`, `color: #ffffff`, `color: red`, `color: #ffffff`)
 				}
+				console.log(data)
 			})
 		}
 	}
@@ -87,4 +92,13 @@ class Button {
 	
 	setOffline() {
 	}
+}
+
+function validateJson(str) {
+	try {
+		JSON.parse(str);
+	} catch (e) {
+		return false;
+	}
+	return true;
 }

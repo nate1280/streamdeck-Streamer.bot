@@ -7,15 +7,51 @@ function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, action) 
 
 	if (typeof data.payload.settings.action === 'string' || data.payload.settings.action instanceof String)
 	{
-		currentAction = { id: action, name: "Unknown", args: "{}"}
+		currentAction = {
+			action: {
+				keyDown: {
+					id: action,
+					name: "Unknown"
+				},
+				keyUp: {
+					id: action,
+					name: "Unknown"
+				},
+				args: "{}"
+			}
+		}
 	}
 	else if (data.payload.settings.action === undefined)
 	{
-		currentAction = { id: "", name: "", args: "{}"}
+		currentAction = {
+			action: {
+				keyDown: {
+					id: "",
+					name: ""
+				},
+				keyUp: {
+					id: "",
+					name: ""
+				},
+				args: "{}"
+			}
+		}
 	}
 	else
 	{
-		currentAction = { id: data.payload.settings.action.id, name: data.payload.settings.action.name, args: data.payload.settings.action.args}
+		currentAction = {
+			action: {
+				keyDown: {
+					id: data.payload.settings.action.keyDown.id,
+					name: data.payload.settings.action.keyDown.name
+				},
+				keyUp: {
+					id: data.payload.settings.action.keyUp.id,
+					name: data.payload.settings.action.keyUp.name
+				},
+				args: data.payload.settings.action.args
+			}
+		}
 	}
 
 	_currentPlugin = {
@@ -50,14 +86,11 @@ function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, action) 
 }
 
 function updateSettingsUI(data) {
-	console.log(`%c[Streamer.bot]%c Updating UI Settings`, `color: #78d1ff`, `color: white`)
-	
 	if (data.payload.settings && Object.keys(data.payload.settings).length > 0) {
+		console.log(`%c[Streamer.bot]%c Updating UI Settings`, `color: #78d1ff`, `color: white`)
 		document.getElementById('host').value = data.payload.settings.host
 		document.getElementById('port').value = data.payload.settings.port
 		document.getElementById('endpoint').value = data.payload.settings.endpoint
-		document.getElementById('args').value = currentAction.args
-		console.log(data)
 	}
 }
 
@@ -76,7 +109,8 @@ function updateGlobalSettings() {
 function updateActionsUI() {
 	console.log(`%c[Streamer.bot]%c Updating Actions List`, `color: #78d1ff`, `color: white`)
 	
-	document.getElementById('actions').innerHTML = ''
+	document.getElementById('keydown-actions').innerHTML = ''
+	document.getElementById('keyup-actions').innerHTML = ''
 	// Make Groups
 	let groups = []
 	sbActions.forEach((action) => {
@@ -99,32 +133,69 @@ function updateActionsUI() {
 		createAction(action)
 	})
 	
-	document.getElementById('actions').value = currentAction.id
+	console.log(currentAction)
+	document.getElementById('keydown-actions').value = currentAction.action.keyDown.id
+	document.getElementById('keyup-actions').value = currentAction.action.keyUp.id
+	document.getElementById('args').value = currentAction.action.args
 }
 
 function createGroup(group) {
-	const optgroup = document.createElement('optgroup')
-	optgroup.label = group
-	document.getElementById('actions').appendChild(optgroup)
+	const keydownOptgroup = document.createElement('optgroup')
+	keydownOptgroup.label = group
+	document.getElementById('keydown-actions').appendChild(keydownOptgroup)
+
+	const keyupOptgroup = document.createElement('optgroup')
+	keyupOptgroup.label = group
+	document.getElementById('keyup-actions').appendChild(keyupOptgroup)
 }
 
 function createAction(action) {
-	const option = document.createElement('option')
-	option.innerText = action.name
-	option.value = action.id
-	document.querySelector(`#actions optgroup[label="${action.group}"]`).appendChild(option)
+	const keydownOption = document.createElement('option')
+	keydownOption.innerText = action.name
+	keydownOption.value = action.id
+	document.querySelector(`#keydown-actions optgroup[label="${action.group}"]`).appendChild(keydownOption)
+
+	const keyupOption = document.createElement('option')
+	keyupOption.innerText = action.name
+	keyupOption.value = action.id
+	document.querySelector(`#keyup-actions optgroup[label="${action.group}"]`).appendChild(keyupOption)
 }
 
 function updateSettings() {
 	console.log(`%c[Streamer.bot]%c Updating Settings`, `color: #78d1ff`, `color: white`)
 
-	let actionId = document.getElementById('actions').value;
-	let actionArgs = document.getElementById(`args`).value
-	let action = getAction(actionId);
+	let keyDownActionId = document.getElementById('keydown-actions').value;
+	let keyUpActionId = document.getElementById('keyup-actions').value;
+	let args = document.getElementById('args').value;
+	let keyDownAction = getAction(keyDownActionId);
+	let keyUpAction = getAction(keyUpActionId);
 	StreamDeck.setSettings(_currentPlugin.context, {
-		action: { id: action.id, name: action.name, args: actionArgs }
+		action: {
+			keyDown: {
+				id: keyDownAction.id,
+				name: keyDownAction.name
+			},
+			keyUp: {
+				id: keyUpAction.id,
+				name: keyUpAction.name
+			},
+			args: args
+		}
 	})
-	currentAction = { id: action.id, name: action.name, args: actionArgs }
+	currentAction = {
+		action: {
+			keyDown: {
+				id: keyDownAction.id,
+				name: keyDownAction.name
+			},
+			keyUp: {
+				id: keyUpAction.id,
+				name: keyUpAction.name
+			},
+			args: args
+		}
+	}
+	console.log(currentAction)
 }
 
 function getAction(action) {
@@ -138,5 +209,6 @@ function getAction(action) {
 document.getElementById('host').onchange = updateGlobalSettings
 document.getElementById('port').onchange = updateGlobalSettings
 document.getElementById('endpoint').onchange = updateGlobalSettings
-document.getElementById('actions').onchange = updateSettings
+document.getElementById('keydown-actions').onchange = updateSettings
+document.getElementById('keyup-actions').onchange = updateSettings
 document.getElementById('args').onchange = updateSettings

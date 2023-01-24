@@ -34,57 +34,47 @@ class Button {
 	}
 
 	_doAction(keyState) {
+		let args = this.action.args || `{}`
+		if (args === undefined || args === null || args === ``) args = `{}`
+		let decodedJson = decodeURI(args).replaceAll(`\n`, ``)
+		decodedJson = Object.entries(JSON.parse(decodedJson))
+		decodedJson.unshift([`source`, `StreamDeck`])
+		args = Object.fromEntries(decodedJson)
+		let id = null
+
 		if (this.type === `action` && keyState === `keyDown`) {
-
-			var id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.action.id;
-			let args = this.action.args
-			if (args === undefined || args === null || args === ``) args = `{}`
-			let decodedJson = decodeURI(args).replaceAll(`\n`, ``)
-			decodedJson = Object.entries(JSON.parse(decodedJson))
-			decodedJson.unshift([`source`, `StreamDeck`])
-			args = Object.fromEntries(decodedJson)
-
-			sb.send('DoAction', {
-				'action': {
-					'id': id
-				},
-				'args': args
-			})
+			
+			// Normal action button
+			id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.action.id;
 
 		} else if (this.type === `push-to-actions` && keyState === `keyDown`) {
 
-			var id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.action.keyDown.id;
-			let args = this.action.args
-			if (args === undefined || args === null || args === ``) args = `{}`
-			let decodedJson = decodeURI(args).replaceAll(`\n`, ``)
-			decodedJson = Object.entries(JSON.parse(decodedJson))
-			decodedJson.unshift([`source`, `StreamDeck`])
-			args = Object.fromEntries(decodedJson)
-
-			sb.send('DoAction', {
-				'action': {
-					'id': id
-				},
-				'args': args
-			})
+			// Push to action button when pussing down
+			id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.action.keyDown.id;
 
 		} else if (this.type === `push-to-actions` && keyState === `keyUp`) {
 
-			var id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.action.keyUp.id;
-			let args = this.action.args
-			if (args === undefined || args === null || args === ``) args = `{}`
-			let decodedJson = decodeURI(args).replaceAll(`\n`, ``)
-			decodedJson = Object.entries(JSON.parse(decodedJson))
-			decodedJson.unshift([`source`, `StreamDeck`])
-			args = Object.fromEntries(decodedJson)
+			// Push to action button when releasing
+			id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.action.keyUp.id;
 
+		}
+
+		// Running the action but only do so if it was defined in one of these if statements above
+		if (id != null) {
 			sb.send('DoAction', {
-				'action': {
-					'id': id
+				"action": {
+					"id": id
 				},
-				'args': args
+				"args": args
+			}).then((data) => {
+				if (data.status === `ok`) {
+					StreamDeck.sendOk(this.context)
+					console.log(`%c[Streamer.bot]%c Action %cran succesfully`, `color: #78d1ff`, `color: #ffffff`, `color: lightgreen`)
+				} else {
+					StreamDeck.sendAlert(this.context)
+					console.log(`%c[Streamer.bot]%c Action %cdidn't ran succesfully%c`, `color: #78d1ff`, `color: #ffffff`, `color: red`, `color: #ffffff`)
+				}
 			})
-
 		}
 	}
 
@@ -93,17 +83,8 @@ class Button {
 	}
 
 	setOnline() {
-		switch (this.type) {
-			case 'action':
-				// StreamDeck.setImage(this.context, readyImg, StreamDeck.BOTH)
-				break
-			default:
-				// StreamDeck.setImage(this.context, blackImg, StreamDeck.BOTH)
-				break
-		}
 	}
-
+	
 	setOffline() {
-		// StreamDeck.setImage(this.context, blackImg, StreamDeck.BOTH)
 	}
 }

@@ -2,24 +2,28 @@
 <html>
 	<head>
 		<title>Streamer.bot - Push to Actions</title>
-		<link rel="stylesheet" href="css/sdpi.css">
-		<script src="js/StreamDeck.js" charset="utf-8"></script>
+		<link rel="stylesheet" href="../css/sdpi.css">
+		<script src="../js/StreamDeck.js" charset="utf-8"></script>
 	</head>
 	<body>
 		<div class="sdpi-wrapper">
 			<div class="sdpi-item" id="select_single">
 				<div class="sdpi-item-label">Key Down Action</div>
-				<select class="sdpi-item-value select" id="keydown-actions"></select>
+				<select class="sdpi-item-value select" id="keydown-actions" style="width: 227px; max-width: 227px;"></select>
 			</div>
 			<div class="sdpi-item" id="select_single">
 				<div class="sdpi-item-label">Key Up Action</div>
-				<select class="sdpi-item-value select" id="keyup-actions"></select>
+				<select class="sdpi-item-value select" id="keyup-actions" style="width: 227px; max-width: 227px;"></select>
 			</div>
 			<div type="textarea" class="sdpi-item" id="message_only">
 				<div class="sdpi-item-label">Arguments Object</div>
 				<span class="sdpi-item-value textarea">
 						<textarea type="textarea" id="args"></textarea>
 				</span>
+			</div>
+			<div class="sdpi-item">
+				<p class="sdpi-item-label">Documentation</p>
+				<button class="sdpi-item-value" onclick="window.open('https:/\/wiki.streamer.bot/en/Plugins/Stream-Deck/Push-to-run-Actions')">Open</button>
 			</div>
 			<div class="sdpi-heading">Streamer.bot Authentication</div>
 			<div class="sdpi-item">
@@ -35,6 +39,6 @@
 				<input class="sdpi-item-value" id="endpoint">
 			</div>
 		<div>
-		<script src="js/push-to-action-pi.js" charset="utf-8"></script>
+		<script src="../js/pi-push-to-action.js" charset="utf-8"></script>
 	</body>
 </html>

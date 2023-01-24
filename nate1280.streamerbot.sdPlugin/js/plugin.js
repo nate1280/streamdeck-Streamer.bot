@@ -201,14 +201,16 @@ function updateButton(context) {
 	buttons[context].setOnline()
 }
 
+function setButtonsOnline() {
+	Object.values(buttons).forEach((b) => {
+		b.setOnline()
+	})
+}
+
 function setButtonsOffline() {
 	Object.values(buttons).forEach((b) => {
 		b.setOffline()
 	})
 }
 
-function setButtonsOnline() {
-	Object.values(buttons).forEach((b) => {
-		b.setOnline()
-	})
-}
+console.warn(`BUTTONS: `, buttons)

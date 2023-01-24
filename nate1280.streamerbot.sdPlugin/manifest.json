@@ -4,12 +4,12 @@
 	"Author": "nate1280",
 	"URL": "https://wiki.streamer.bot/en/Plugins/Stream-Deck",
 	"Version": "0.4.0",
-	"Icon": "icons/logo",
+	"Icon": "icons/icon",
 	"SDKVersion": 2,
 	"CodePath": "plugin.html",
 
 	"Category": "Streamer.bot",
-	"CategoryIcon": "icons/logo",
+	"CategoryIcon": "icons/Category",
 
 	"Actions": [
 		{
@@ -17,7 +17,7 @@
 			"Tooltip": "Run Streamer.bot actions",
 			"UUID": "nate1280.streamerbot.action-btn",
 			"Icon": "icons/action",
-			"PropertyInspectorPath": "action-pi.html",
+			"PropertyInspectorPath": "pi/action.html",
 			"States": [
 				{
 					"Image": "icons/background",
@@ -30,7 +30,7 @@
 			"Tooltip": "Run seperate Streamer.bot actions when pressing and releasing the key",
 			"UUID": "nate1280.streamerbot.push-to-actions-btn",
 			"Icon": "icons/action",
-			"PropertyInspectorPath": "push-to-actions-pi.html",
+			"PropertyInspectorPath": "pi/push-to-actions.html",
 			"States": [
 				{
 					"Image": "icons/background",

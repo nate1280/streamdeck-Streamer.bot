@@ -2,20 +2,24 @@
 <html>
 	<head>
 		<title>Streamer.bot - Action</title>
-		<link rel="stylesheet" href="css/sdpi.css">
-		<script src="js/StreamDeck.js" charset="utf-8"></script>
+		<link rel="stylesheet" href="../css/sdpi.css">
+		<script src="../js/StreamDeck.js" charset="utf-8"></script>
 	</head>
 	<body>
 		<div class="sdpi-wrapper">
 			<div class="sdpi-item" id="select_single">
 				<div class="sdpi-item-label">Action</div>
-				<select class="sdpi-item-value select" id="actions"></select>
+				<select class="sdpi-item-value select" id="actions" style="width: 227px; max-width: 227px;"></select>
 			</div>
 			<div type="textarea" class="sdpi-item" id="message_only">
 				<div class="sdpi-item-label">Arguments Object</div>
 				<span class="sdpi-item-value textarea">
 						<textarea type="textarea" id="args"></textarea>
 				</span>
+			</div>
+			<div class="sdpi-item">
+				<p class="sdpi-item-label">Documentation</p>
+				<button class="sdpi-item-value" onclick="window.open('https:/\/wiki.streamer.bot/en/Plugins/Stream-Deck/Action')">Open</button>
 			</div>
 			<div class="sdpi-heading">Streamer.bot Authentication</div>
 			<div class="sdpi-item">
@@ -31,6 +35,6 @@
 				<input class="sdpi-item-value" id="endpoint">
 			</div>
 		<div>
-		<script src="js/action-pi.js" charset="utf-8"></script>
+		<script src="../js/pi-action.js" charset="utf-8"></script>
 	</body>
 </html>

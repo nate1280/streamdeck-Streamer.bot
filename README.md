@@ -1,10 +1,11 @@
+**NOTE:** The offical documentation for this plugin is located at: https://wiki.streamer.bot/en/Plugins/Stream-Deck
+
 # StreamDeck Streamer.Bot
 
 This Elgato StreamDeck plugin allows for the runing of actions in Streamer.bot
 
 The features are:
 - An action button that can be linked to an action within Streamer.bot
-- An push to run actions button that activates two actions. One for pressing the button, and one for releasing the button.
 
 Be sure to download the plugin from the [Releases](https://github.com/nate1280/streamdeck-Streamer.bot/releases) section (just under the About) on the right hand side.  You'll want to download the `nate1280.streamerbot.streamDeckPlugin`, and you should be able to double click this to have it install in Stream Deck
 

@@ -91,7 +91,7 @@ function updateSettingsUI(data) {
 		document.getElementById('host').value = data.payload.settings.host
 		document.getElementById('port').value = data.payload.settings.port
 		document.getElementById('endpoint').value = data.payload.settings.endpoint
-		document.getElementById('args').value = currentAction.action.args
+		document.getElementById('args').value = currentAction.args || `{}`
 		validateArgsJson()
 	}
 }

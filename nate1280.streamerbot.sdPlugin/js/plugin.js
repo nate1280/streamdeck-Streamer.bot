@@ -212,5 +212,3 @@ function setButtonsOffline() {
 		b.setOffline()
 	})
 }
-
-console.warn(`BUTTONS: `, buttons)

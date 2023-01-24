@@ -38,8 +38,8 @@ class Button {
 		if (args === undefined || args === null || args === ``) args = `{}`
 		args = decodeURI(args).replaceAll(`\n`, ``)
 		if (validateJson(args) === false) {
-			args = `{}`
-			console.log(`Invalid JSON`)
+			args = `{"streamDeckError": "Your arguments JSON was invalid"}`
+			console.log(`Invalid arguments JSON`)
 		}
 		args = Object.entries(JSON.parse(args))
 		args.unshift([`source`, `StreamDeck`])
@@ -71,12 +71,12 @@ class Button {
 				},
 				"args": args
 			}).then((data) => {
-				if (data.status === `ok`) {
+				if (data.status === `okk`) {
 					StreamDeck.sendOk(this.context)
-					console.log(`%c[Streamer.bot]%c Action %cran successfully`, `color: #78d1ff`, `color: #ffffff`, `color: lightgreen`)
-				} else {
+					console.log(`%c[Streamer.bot]%c Action ran successfully`, `color: #78d1ff`, `color: lightgreen`)
+				} else if (data.status === `ok`) {
 					StreamDeck.sendAlert(this.context)
-					console.log(`%c[Streamer.bot]%c Action %cdidn't ran successfully%c`, `color: #78d1ff`, `color: #ffffff`, `color: red`, `color: #ffffff`)
+					console.log(`%c[Streamer.bot]%c Action didn't ran successfully because: "${data.error}"`, `color: #78d1ff`, `color: lightcoral`)
 				}
 				console.log(data)
 			})
@@ -97,7 +97,7 @@ class Button {
 function validateJson(str) {
 	try {
 		JSON.parse(str);
-	} catch (e) {
+	} catch (error) {
 		return false;
 	}
 	return true;

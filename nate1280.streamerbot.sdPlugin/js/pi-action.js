@@ -56,7 +56,7 @@ function updateSettingsUI(data) {
 		document.getElementById('port').value = data.payload.settings.port
 		document.getElementById('endpoint').value = data.payload.settings.endpoint
 		document.getElementById('args').value = currentAction.args
-		console.log(data)
+		validateArgsJson()
 	}
 }
 
@@ -135,8 +135,36 @@ function getAction(action) {
 	}
 }
 
+function validateArgsJson() {
+		let args = document.getElementById('args').value
+		if (args === undefined || args === null || args === ``) args = `{}`
+		let result = validateJson(args)
+		if (result === true) {
+			document.getElementById(`arguments-json-validation`).innerText = `Valid JSON`
+			document.getElementById(`arguments-json-validation`).setAttribute(`data-validation`, `true`)
+		} else if (result === false) {
+			document.getElementById(`arguments-json-validation`).innerText = `Invalid JSON`
+			document.getElementById(`arguments-json-validation`).setAttribute(`data-validation`, `false`)
+		}
+}
+
+function validateJson(json) {
+	try {
+		JSON.parse(json);
+	} catch (error) {
+		return false;
+	}
+	return true;
+}
+
+
 document.getElementById('host').onchange = updateGlobalSettings
 document.getElementById('port').onchange = updateGlobalSettings
 document.getElementById('endpoint').onchange = updateGlobalSettings
 document.getElementById('actions').onchange = updateSettings
-document.getElementById('args').onchange = updateSettings
+document.getElementById('args').onkeydown = function () {
+	setTimeout(() => {
+		updateSettings()
+		validateArgsJson()
+	}, 50);
+}

@@ -79,10 +79,10 @@ function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, action) 
 					updateSettingsUI(data)
 					break
 					default:
-						// console.log(data)
+						console.log(data)
 						break
-					}
-				}
+		}
+	}
 }
 
 function updateSettingsUI(data) {
@@ -91,6 +91,8 @@ function updateSettingsUI(data) {
 		document.getElementById('host').value = data.payload.settings.host
 		document.getElementById('port').value = data.payload.settings.port
 		document.getElementById('endpoint').value = data.payload.settings.endpoint
+		document.getElementById('args').value = currentAction.action.args
+		validateArgsJson()
 	}
 }
 
@@ -136,7 +138,6 @@ function updateActionsUI() {
 	console.log(currentAction)
 	document.getElementById('keydown-actions').value = currentAction.action.keyDown.id
 	document.getElementById('keyup-actions').value = currentAction.action.keyUp.id
-	document.getElementById('args').value = currentAction.action.args
 }
 
 function createGroup(group) {
@@ -206,9 +207,36 @@ function getAction(action) {
 	}
 }
 
+function validateArgsJson() {
+	let args = document.getElementById('args').value
+	if (args === undefined || args === null || args === ``) args = `{}`
+	let result = validateJson(args)
+	if (result === true) {
+		document.getElementById(`arguments-json-validation`).innerText = `Valid JSON`
+		document.getElementById(`arguments-json-validation`).setAttribute(`data-validation`, `true`)
+	} else if (result === false) {
+		document.getElementById(`arguments-json-validation`).innerText = `Invalid JSON`
+		document.getElementById(`arguments-json-validation`).setAttribute(`data-validation`, `false`)
+	}
+}
+
+function validateJson(json) {
+	try {
+		JSON.parse(json);
+	} catch (error) {
+		return false;
+	}
+	return true;
+}
+
 document.getElementById('host').onchange = updateGlobalSettings
 document.getElementById('port').onchange = updateGlobalSettings
 document.getElementById('endpoint').onchange = updateGlobalSettings
 document.getElementById('keydown-actions').onchange = updateSettings
 document.getElementById('keyup-actions').onchange = updateSettings
-document.getElementById('args').onchange = updateSettings
+document.getElementById('args').onkeydown = function () {
+	setTimeout(() => {
+		updateSettings()
+		validateArgsJson()
+	}, 50);
+}

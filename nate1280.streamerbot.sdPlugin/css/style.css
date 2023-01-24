@@ -1,0 +1,9 @@
+/* Validation Coloring */
+
+.validation-label[data-validation="true"] {
+  color: #009944;
+}
+
+.validation-label[data-validation="false"] {
+  color: #cf000f;
+}

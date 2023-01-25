@@ -78,9 +78,10 @@ function updateArgumentsTable() {
 			</tr>
 			`)
 		}
+		
+		updateSettings()
 	}, 50);
 
-	updateSettings()
 }
 
 function GetArguments() {

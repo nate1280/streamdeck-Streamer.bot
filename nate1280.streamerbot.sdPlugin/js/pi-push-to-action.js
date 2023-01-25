@@ -115,9 +115,9 @@ function updateArgumentsTable() {
 			</tr>
 			`)
 		}
-	}, 50);
 
-	updateSettings()
+		updateSettings()
+	}, 50);
 }
 
 function GetArguments() {

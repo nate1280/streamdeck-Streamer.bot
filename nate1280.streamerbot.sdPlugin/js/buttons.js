@@ -3,13 +3,16 @@ class Button {
 		this.context = data.context
 		this.type = type
 		this.processStreamDeckData(data)
-		console.log(type)
 	}
 
 	processStreamDeckData(data) {
+		if (this.type == 'action' && !data.payload.settings.action) {
+			this._updateTitle(``)
+		}
+
 		if (this.type == 'action' && data.payload.settings.action) {
 			this.action = data.payload.settings.action
-			this._updateTitle()
+			this._updateTitle(this[this.type].name)
 		} else if (this.type == 'push-to-actions' && data.payload.settings.action) {
 			this.action = data.payload.settings.action
 		}
@@ -79,8 +82,8 @@ class Button {
 		}
 	}
 
-	_updateTitle() {
-		StreamDeck.setTitle(this.context, this[this.type].name, StreamDeck.BOTH)
+	_updateTitle(title) {
+		StreamDeck.setTitle(this.context, title, StreamDeck.BOTH)
 	}
 
 	setOnline() {

@@ -7,11 +7,11 @@ function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, action) 
 
 	if (typeof data.payload.settings.action === 'string' || data.payload.settings.action instanceof String)
 	{
-		currentAction = { id: action, name: "Unknown", args: "{}"}
+		currentAction = { id: action, name: "Unknown", args: {}}
 	}
 	else if (data.payload.settings.action === undefined)
 	{
-		currentAction = { id: "", name: "", args: "{}"}
+		currentAction = { id: "", name: "", args: {}}
 	}
 	else
 	{
@@ -198,6 +198,8 @@ function updateSettings() {
 		action: { id: action.id, name: action.name, args: actionArgs }
 	})
 	currentAction = { id: action.id, name: action.name, args: actionArgs }
+
+	console.log(currentAction)
 }
 
 function getAction(action) {

@@ -3,6 +3,7 @@ class Button {
 		this.context = data.context
 		this.type = type
 		this.processStreamDeckData(data)
+		console.log(type)
 	}
 
 	processStreamDeckData(data) {
@@ -34,14 +35,9 @@ class Button {
 	}
 
 	_doAction(keyState) {
-		let args = this.action.args || `{}`
-		if (args === undefined || args === null || args === ``) args = `{}`
-		args = decodeURI(args).replaceAll(`\n`, ``)
-		if (validateJson(args) === false) {
-			args = `{"streamDeckError": "Your arguments JSON was invalid"}`
-			console.log(`Invalid arguments JSON`)
-		}
-		args = Object.entries(JSON.parse(args))
+		let args = this.action.args || {}
+		if (args === undefined || args === null || args === ``) args = {}
+		args = Object.entries(args)
 		args.unshift([`source`, `StreamDeck`])
 		args = Object.fromEntries(args)
 		let id = null

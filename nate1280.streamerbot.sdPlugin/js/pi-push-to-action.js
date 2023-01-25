@@ -17,7 +17,7 @@ function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, action) 
 					id: action,
 					name: "Unknown"
 				},
-				args: "{}"
+				args: {}
 			}
 		}
 	}
@@ -33,7 +33,7 @@ function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, action) 
 					id: "",
 					name: ""
 				},
-				args: "{}"
+				args: {}
 			}
 		}
 	}

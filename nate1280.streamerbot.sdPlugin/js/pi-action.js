@@ -39,14 +39,60 @@ function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, action) 
 					updateActionsUI()
 				}
 				break
-				case 'didReceiveGlobalSettings':
-					updateSettingsUI(data)
-					break
-					default:
-						// console.log(data)
-						break
-					}
-				}
+			case 'didReceiveGlobalSettings':
+				updateSettingsUI(data)
+				break
+			default:
+				// console.log(data)
+				break
+		}
+	}
+}
+
+let table = document.getElementById(`arguments-table`)
+table.addEventListener(`keydown`, updateArgumentsTable)
+
+function updateArgumentsTable() {
+
+	setTimeout(() => {
+		let tableData = []
+		table.querySelectorAll(`tr`).forEach(tableRow => {
+			let argumentName  = tableRow.querySelector(`td:nth-child(1)`).innerText || ``
+			let argumentValue = tableRow.querySelector(`td:nth-child(2)`).innerText || ``
+			if (argumentName != `` && argumentValue != ``) {
+				tableData.push([argumentName, argumentValue])
+			}
+		});
+
+		table.querySelectorAll(`tr:not(:first-child)`).forEach(tableRow => {
+			if (tableRow.querySelector(`td:nth-child(1)`).innerText === `` && tableRow.querySelector(`td:nth-child(2)`).innerText === ``) {
+			tableRow.remove()
+			}
+		});
+		
+		if (table.querySelector(`tr:last-child td:nth-child(1)`).innerText != `` && table.querySelector(`tr:last-child td:nth-child(2)`).innerText != ``) {
+			table.querySelector(`tbody`).insertAdjacentHTML(`beforeend`, `
+			<tr>
+				<td contenteditable="true" style="text-align: right;"></td>
+				<td contenteditable="true" style="text-align: left;"></td>
+			</tr>
+			`)
+		}
+	}, 50);
+
+	updateSettings()
+}
+
+function GetArguments() {
+	let tableData = []
+	table.querySelectorAll(`tr`).forEach(tableRow => {
+		let argumentName  = tableRow.querySelector(`td:nth-child(1)`).innerText || ``
+		let argumentValue = tableRow.querySelector(`td:nth-child(2)`).innerText || ``
+		if (argumentName != `` && argumentValue != ``) {
+			tableData.push([argumentName, argumentValue])
+		}
+	});
+	return Object.fromEntries(tableData)
 }
 
 function updateSettingsUI(data) {
@@ -55,8 +101,6 @@ function updateSettingsUI(data) {
 		document.getElementById('host').value = data.payload.settings.host
 		document.getElementById('port').value = data.payload.settings.port
 		document.getElementById('endpoint').value = data.payload.settings.endpoint
-		document.getElementById('args').value = currentAction.args || `{}`
-		validateArgsJson()
 	}
 }
 
@@ -100,6 +144,35 @@ function updateActionsUI() {
 	})
 	
 	document.getElementById('actions').value = currentAction.id
+
+	updateArgsUI()
+}
+
+function updateArgsUI() {
+	let table = document.getElementById(`arguments-table`)
+	let args = Object.entries(currentAction.args)
+
+	table.querySelector(`tbody`).innerHTML = ``
+
+	if (args.length === 0) {
+		table.querySelector(`tbody`).insertAdjacentHTML(`beforeend`, `
+		<tr>
+			<td contenteditable="true" style="text-align: right;"></td>
+			<td contenteditable="true" style="text-align: left;"></td>
+		</tr>
+		`)
+	}
+
+	args.forEach(arg => {
+		table.querySelector(`tbody`).insertAdjacentHTML(`beforeend`, `
+		<tr>
+			<td contenteditable="true" style="text-align: right;">${arg[0]}</td>
+			<td contenteditable="true" style="text-align: left;">${arg[1]}</td>
+		</tr>
+		`)
+	});
+
+	updateArgumentsTable()
 }
 
 function createGroup(group) {
@@ -119,7 +192,7 @@ function updateSettings() {
 	console.log(`%c[Streamer.bot]%c Updating Settings`, `color: #78d1ff`, `color: white`)
 
 	let actionId = document.getElementById('actions').value;
-	let actionArgs = document.getElementById(`args`).value
+	let actionArgs = GetArguments()
 	let action = getAction(actionId);
 	StreamDeck.setSettings(_currentPlugin.context, {
 		action: { id: action.id, name: action.name, args: actionArgs }
@@ -133,19 +206,6 @@ function getAction(action) {
 			return sbActions[i];
 		}
 	}
-}
-
-function validateArgsJson() {
-		let args = document.getElementById('args').value
-		if (args === undefined || args === null || args === ``) args = `{}`
-		let result = validateJson(args)
-		if (result === true) {
-			document.getElementById(`arguments-json-validation`).innerText = `Valid JSON`
-			document.getElementById(`arguments-json-validation`).setAttribute(`data-validation`, `true`)
-		} else if (result === false) {
-			document.getElementById(`arguments-json-validation`).innerText = `Invalid JSON`
-			document.getElementById(`arguments-json-validation`).setAttribute(`data-validation`, `false`)
-		}
 }
 
 function validateJson(json) {
@@ -162,9 +222,3 @@ document.getElementById('host').onchange = updateGlobalSettings
 document.getElementById('port').onchange = updateGlobalSettings
 document.getElementById('endpoint').onchange = updateGlobalSettings
 document.getElementById('actions').onchange = updateSettings
-document.getElementById('args').onkeydown = function () {
-	setTimeout(() => {
-		updateSettings()
-		validateArgsJson()
-	}, 50);
-}

@@ -7,3 +7,9 @@
 .validation-label[data-validation="false"] {
   color: #cf000f;
 }
+
+/* Arguments Table */
+.arguments-table tbody tr td {
+  min-width: 8rem;
+  padding-inline: .5rem;
+}

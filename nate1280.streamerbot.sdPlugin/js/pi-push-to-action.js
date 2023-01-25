@@ -54,6 +54,7 @@ function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, action) 
 		}
 	}
 
+	
 	_currentPlugin = {
 		action: data.action,
 		context: uuid
@@ -75,12 +76,12 @@ function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, action) 
 					updateActionsUI()
 				}
 				break
-				case 'didReceiveGlobalSettings':
-					updateSettingsUI(data)
-					break
-					default:
-						console.log(data)
-						break
+			case 'didReceiveGlobalSettings':
+				updateSettingsUI(data)
+				break
+				default:
+					console.log(data)
+				break
 		}
 	}
 }

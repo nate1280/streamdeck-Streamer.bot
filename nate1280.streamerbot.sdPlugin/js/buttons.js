@@ -71,10 +71,10 @@ class Button {
 				},
 				"args": args
 			}).then((data) => {
-				if (data.status === `okk`) {
+				if (data.status === `ok`) {
 					StreamDeck.sendOk(this.context)
 					console.log(`%c[Streamer.bot]%c Action ran successfully`, `color: #78d1ff`, `color: lightgreen`)
-				} else if (data.status === `ok`) {
+				} else if (data.status === `error`) {
 					StreamDeck.sendAlert(this.context)
 					console.log(`%c[Streamer.bot]%c Action didn't ran successfully because: "${data.error}"`, `color: #78d1ff`, `color: lightcoral`)
 				}

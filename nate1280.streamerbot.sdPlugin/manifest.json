@@ -14,7 +14,7 @@
 	"Actions": [
 		{
 			"Name": "Action",
-			"Tooltip": "Run Streamer.bot actions",
+			"Tooltip": "Run Streamer.bot actions.",
 			"UUID": "nate1280.streamerbot.action-btn",
 			"Icon": "icons/action",
 			"PropertyInspectorPath": "pi/action.html",
@@ -26,11 +26,11 @@
 			]
 		},
 		{
-			"Name": "Push to run Actions",
-			"Tooltip": "Run seperate Streamer.bot actions when pressing and releasing the key",
-			"UUID": "nate1280.streamerbot.push-to-actions-btn",
+			"Name": "Action Push Switch",
+			"Tooltip": "A momentary latching switch button for your actions.",
+			"UUID": "nate1280.streamerbot.action-push-switch-btn",
 			"Icon": "icons/action",
-			"PropertyInspectorPath": "pi/push-to-actions.html",
+			"PropertyInspectorPath": "pi/action-push-switch.html",
 			"States": [
 				{
 					"Image": "icons/background",

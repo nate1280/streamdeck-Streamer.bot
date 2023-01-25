@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Streamer.bot - Push to Actions</title>
+		<title>Streamer.bot - Action Push Switch</title>
 		<link rel="stylesheet" href="../css/sdpi.css">
 		<link rel="stylesheet" href="../css/style.css">
 		<script src="../js/StreamDeck.js" charset="utf-8"></script>
@@ -9,11 +9,11 @@
 	<body>
 		<div class="sdpi-wrapper">
 			<div class="sdpi-item" id="select_single">
-				<div class="sdpi-item-label">Key Down Action</div>
+				<div class="sdpi-item-label">Action on Push</div>
 				<select class="sdpi-item-value select" id="keydown-actions" style="width: 227px; max-width: 227px;"></select>
 			</div>
 			<div class="sdpi-item" id="select_single">
-				<div class="sdpi-item-label">Key Up Action</div>
+				<div class="sdpi-item-label">Action on Release</div>
 				<select class="sdpi-item-value select" id="keyup-actions" style="width: 227px; max-width: 227px;"></select>
 			</div>
 			<div class="sdpi-item" id="arguments-table">
@@ -24,7 +24,7 @@
 			</div>
 			<div class="sdpi-item">
 				<p class="sdpi-item-label">Documentation</p>
-				<button class="sdpi-item-value" onclick="window.open('https:/\/wiki.streamer.bot/en/Plugins/Stream-Deck/Push-to-run-Actions')">Open</button>
+				<button class="sdpi-item-value" onclick="window.open('https:/\/wiki.streamer.bot/en/Plugins/Stream-Deck/Action-Push-Switch')">Open</button>
 			</div>
 			<div class="sdpi-heading">Streamer.bot Authentication</div>
 			<div class="sdpi-item">
@@ -40,6 +40,6 @@
 				<input class="sdpi-item-value" id="endpoint">
 			</div>
 		<div>
-		<script src="../js/pi-push-to-action.js" charset="utf-8"></script>
+		<script src="../js/pi-action-push-switch.js" charset="utf-8"></script>
 	</body>
 </html>

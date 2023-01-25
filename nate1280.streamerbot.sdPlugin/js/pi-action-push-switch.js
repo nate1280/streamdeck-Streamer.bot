@@ -5,56 +5,44 @@ let currentAction
 function connectElgatoStreamDeckSocket(port, uuid, registerEvent, info, action) {
 	data = JSON.parse(action)
 
-	if (typeof data.payload.settings.action === 'string' || data.payload.settings.action instanceof String)
-	{
+	if (typeof data.payload.settings === 'string' || data.payload.settings.action instanceof String) {
 		currentAction = {
-			action: {
-				keyDown: {
-					id: action,
-					name: "Unknown"
-				},
-				keyUp: {
-					id: action,
-					name: "Unknown"
-				},
-				args: {}
-			}
+			keyDown: {
+				id: action,
+				name: "Unknown"
+			},
+			keyUp: {
+				id: action,
+				name: "Unknown"
+			},
+			args: {}
 		}
-	}
-	else if (data.payload.settings.action === undefined)
-	{
+	} else if (data.payload.settings === undefined || JSON.stringify(data.payload.settings) === `{}`) {
 		currentAction = {
-			action: {
-				keyDown: {
-					id: "",
-					name: ""
-				},
-				keyUp: {
-					id: "",
-					name: ""
-				},
-				args: {}
-			}
+			keyDown: {
+				id: "",
+				name: ""
+			},
+			keyUp: {
+				id: "",
+				name: ""
+			},
+			args: {}
 		}
-	}
-	else
-	{
+	} else {
 		currentAction = {
-			action: {
-				keyDown: {
-					id: data.payload.settings.action.keyDown.id,
-					name: data.payload.settings.action.keyDown.name
-				},
-				keyUp: {
-					id: data.payload.settings.action.keyUp.id,
-					name: data.payload.settings.action.keyUp.name
-				},
-				args: data.payload.settings.action.args
-			}
+			keyDown: {
+				id: data.payload.settings.keyDown.id,
+				name: data.payload.settings.keyDown.name
+			},
+			keyUp: {
+				id: data.payload.settings.keyUp.id,
+				name: data.payload.settings.keyUp.name
+			},
+			args: data.payload.settings.args
 		}
 	}
 
-	
 	_currentPlugin = {
 		action: data.action,
 		context: uuid
@@ -180,15 +168,15 @@ function updateActionsUI() {
 		createAction(action)
 	})
 	
-	document.getElementById('keydown-actions').value = currentAction.action.keyDown.id
-	document.getElementById('keyup-actions').value = currentAction.action.keyUp.id
+	document.getElementById('keydown-actions').value = currentAction.keyDown.id
+	document.getElementById('keyup-actions').value = currentAction.keyUp.id
 
 	updateArgsUI()
 }
 
 function updateArgsUI() {
 	let table = document.getElementById(`arguments-table`)
-	let args = Object.entries(currentAction.action.args)
+	let args = Object.entries(currentAction.args)
 
 	table.querySelector(`tbody`).innerHTML = ``
 
@@ -243,30 +231,26 @@ function updateSettings() {
 	let keyDownAction = getAction(keyDownActionId);
 	let keyUpAction = getAction(keyUpActionId);
 	StreamDeck.setSettings(_currentPlugin.context, {
-		action: {
-			keyDown: {
-				id: keyDownAction.id,
-				name: keyDownAction.name
-			},
-			keyUp: {
-				id: keyUpAction.id,
-				name: keyUpAction.name
-			},
-			args: GetArguments()
-		}
+		keyDown: {
+			id: keyDownAction.id,
+			name: keyDownAction.name
+		},
+		keyUp: {
+			id: keyUpAction.id,
+			name: keyUpAction.name
+		},
+		args: GetArguments()
 	})
 	currentAction = {
-		action: {
-			keyDown: {
-				id: keyDownAction.id,
-				name: keyDownAction.name
-			},
-			keyUp: {
-				id: keyUpAction.id,
-				name: keyUpAction.name
-			},
-			args: GetArguments()
-		}
+		keyDown: {
+			id: keyDownAction.id,
+			name: keyDownAction.name
+		},
+		keyUp: {
+			id: keyUpAction.id,
+			name: keyUpAction.name
+		},
+		args: GetArguments()
 	}
 }
 

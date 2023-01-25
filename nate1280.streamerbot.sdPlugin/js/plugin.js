@@ -2,7 +2,7 @@ const debug = true
 
 const sb = new SBWebSocket()
 const actionsAction = 'nate1280.streamerbot.action-btn'
-const pushToActionsAction = 'nate1280.streamerbot.push-to-actions-btn'
+const pushToActionsAction = 'nate1280.streamerbot.action-push-switch-btn'
 
 const ConnectionState = {
 	FAILED: -2,

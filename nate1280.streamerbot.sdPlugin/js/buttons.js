@@ -11,10 +11,10 @@ class Button {
 		}
 
 		if (this.type == 'action' && data.payload.settings.action) {
-			this.action = data.payload.settings.action
-			this._updateTitle(this[this.type].name)
-		} else if (this.type == 'push-to-actions' && data.payload.settings.action) {
-			this.action = data.payload.settings.action
+			this.settings = data.payload.settings.action
+			this._updateTitle(this.settings.name)
+		} else if (this.type == 'push-to-actions' && data.payload.settings) {
+			this.settings = data.payload.settings
 		}
 	}
 
@@ -38,7 +38,7 @@ class Button {
 	}
 
 	_doAction(keyState) {
-		let args = this.action.args || {}
+		let args = this.settings.args || {}
 		if (args === undefined || args === null || args === ``) args = {}
 		args = Object.entries(args)
 		args.unshift([`source`, `StreamDeck`])
@@ -48,17 +48,17 @@ class Button {
 		if (this.type === `action` && keyState === `keyDown`) {
 			
 			// Normal action button
-			id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.action.id;
+			id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.settings.id;
 
 		} else if (this.type === `push-to-actions` && keyState === `keyDown`) {
 
-			// Push to action button when pussing down
-			id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.action.keyDown.id;
+			// Push to action button when pressing down
+			id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.settings.keyDown.id;
 
 		} else if (this.type === `push-to-actions` && keyState === `keyUp`) {
 
 			// Push to action button when releasing
-			id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.action.keyUp.id;
+			id = (typeof this.action === 'string' || this.action instanceof String) ? this.action : this.settings.keyUp.id;
 
 		}
 
